@@ -2,27 +2,13 @@ pipeline {
     agent any
 
     environment {
-        AWS_REGION = 'us-east-1'                     // your region
-        S3_BUCKET = 'your-s3-bucket-name'            // your S3 bucket
-        BUILD_DIR = 'dist'                           // your frontend build directory
-        NODE_OPTIONS = '--openssl-legacy-provider'   // fix for crypto errors in Node 17+
+        AWS_REGION = 'us-east-1'
+        S3_BUCKET = 'your-s3-bucket-name'
+        BUILD_DIR = 'dist'
+        NODE_OPTIONS = '--openssl-legacy-provider'
     }
 
     stages {
-        stage('Checkout Code') {
-            steps {
-                // If using private repo, add credentialsId
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: '*/main']],
-                    userRemoteConfigs: [[
-                        url: 'https://github.com/your-username/your-repo.git',
-                        credentialsId: 'your-credentials-id' // Set this in Jenkins Credentials
-                    ]]
-                ])
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
